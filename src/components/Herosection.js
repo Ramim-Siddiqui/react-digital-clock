@@ -1,45 +1,75 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
 
-function Herosection() {
-  const [count, setCount] = useState(0);
+const Herosection = () => {
+  const [count, setCount] = useState(new Date());
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCount(count + 1);
+    setInterval(() => {
+      setCount(new Date());
     }, 1000);
+  }, []);
 
-    // Clean up the interval on component unmount
-    return () => clearInterval(intervalId);
-  }, [count]);
+  const hours = count.getHours();
+  const minutes = count.getMinutes();
+  const seconds = count.getSeconds();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
 
-  const formatDigit = (number) => {
-    if (number < 10) {
-      return '0' + number;
-    } else {
-      return String(number);
-    }
+  const styles = {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      background: 'linear-gradient(to right, #0000FF, #DC143C)',
+      color: 'white',
+      minHeight: '100vh',
+      fontSize: '6vw', 
+      fontFamily: 'Georgia',
+      margin: 0,
   };
-
-  const hours = Math.floor(count / 3600);
-  const minutes = Math.floor((count % 3600) / 60);
-  const seconds = count % 60;
+  const style2 = {
+    borderRadius: '50px',
+    border: '10px double Black',
+  };
+  const style3 = {
+    borderRadius: '10px',
+    border: '10px ridge Black',
+  };
+  const style4 ={
+    borderRadius: '10px',
+    border: '10px ridge Black',
+    margin:'10px'
+  }
 
   return (
-    <>
-      <div className='row justify-content-center text-center'>
-        <div className='col-md-12 col-lg-12 col-sm-12'>
-          <h1 style={text}>{`${formatDigit(hours)}:${formatDigit(minutes)}:${formatDigit(seconds)}`}</h1>
-        </div>
-      </div>
-    </>
+    <Container fluid style={styles}>
+      <Row className='justify-content-center text-center' style={style2}>
+        <Col>
+          <p>
+            DIGITAL CLOCK
+          </p>
+        </Col>
+      </Row>
+
+      <Row className='justify-content-center text-center m-5' style={style3}>
+        <Col>
+        <span style={style4}>
+            {`${hours}`}
+          </span>
+          <span style={style4}>
+            {`${minutes < 10 ? '0' + minutes : minutes}`}
+          </span>
+          <span style={style4}>
+            {`${seconds < 10 ? '0' + seconds : seconds}`}
+          </span>
+          <span style={style4}>
+            {`${ampm}`}
+          </span>
+        </Col>
+      </Row>
+    </Container>
   );
-}
+};
 
 export default Herosection;
-
-const text = {
-  fontSize: '80px',
-  paddingTop: '200px',
-  fontFamily: 'Georgia',
-};
